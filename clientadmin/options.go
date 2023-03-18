@@ -11,8 +11,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/HappyKod/clientadminback"
-	"github.com/HappyKod/clientadminback/internal/models"
+	"github.com/HappyKod/clientadminback/models"
 )
 
 // ErrorAuthFailed error occurs when it was not possible to get account data.
@@ -65,7 +64,7 @@ func WithJWTToken(token string) Option {
 }
 
 // WithLoginAndPassword authorization occurs using username and password received from the user.
-func WithLoginAndPassword(loginAndPassword clientadminback.LoginPassword) Option {
+func WithLoginAndPassword(loginAndPassword models.LoginPassword) Option {
 	return func(c *ClientAdmin) error {
 		marshal, err := json.Marshal(loginAndPassword)
 		if err != nil {

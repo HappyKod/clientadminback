@@ -9,7 +9,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/HappyKod/clientadminback"
+	client_admin_back "github.com/HappyKod/clientadminback"
+	"github.com/HappyKod/clientadminback/models"
 )
 
 type ClientAdmin struct {
@@ -17,7 +18,7 @@ type ClientAdmin struct {
 	tokenJWT   string
 }
 
-var _ clientadminback.Clienter = (*ClientAdmin)(nil)
+var _ client_admin_back.Clienter = (*ClientAdmin)(nil)
 var ErrorCloseBody = errors.New("error closing response body: ")
 var ErrorUnexpectedAnswer = errors.New("unexpected answer: ")
 
@@ -34,7 +35,7 @@ func NewClientAdmin(serviceURL string, opts ...Option) (*ClientAdmin, error) {
 	return &clientAdmin, nil
 }
 
-func (c ClientAdmin) GetAccounts(srcs string, active bool, groupID, limit int) ([]clientadminback.Account, error) {
+func (c ClientAdmin) GetAccounts(srcs string, active bool, groupID, limit int) ([]models.Account, error) {
 	path, err := url.JoinPath(c.ServiceURL, "v1/accounts")
 	req, err := http.NewRequest(http.MethodGet, path, nil)
 	if err != nil {
@@ -62,7 +63,7 @@ func (c ClientAdmin) GetAccounts(srcs string, active bool, groupID, limit int) (
 	if err != nil {
 		return nil, err
 	}
-	var accounts []clientadminback.Account
+	var accounts []models.Account
 	err = json.Unmarshal(all, &accounts)
 	if err != nil {
 		return nil, err
