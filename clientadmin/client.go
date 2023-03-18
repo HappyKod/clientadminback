@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"net/url"
 
-	client_admin_back "github.com/HappyKod/clientadminback"
-	"github.com/HappyKod/clientadminback/models"
+	clientadminback "github.com/HappyKod/clientadminback"
+	"github.com/HappyKod/clientadminback/clientadminmodels"
 )
 
 type ClientAdmin struct {
@@ -18,7 +18,7 @@ type ClientAdmin struct {
 	tokenJWT   string
 }
 
-var _ client_admin_back.Clienter = (*ClientAdmin)(nil)
+var _ clientadminback.Clienter = (*ClientAdmin)(nil)
 var ErrorCloseBody = errors.New("error closing response body: ")
 var ErrorUnexpectedAnswer = errors.New("unexpected answer: ")
 

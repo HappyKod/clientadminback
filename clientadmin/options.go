@@ -11,7 +11,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/HappyKod/clientadminback/models"
+	"github.com/HappyKod/clientadminback/clientadminmodels"
 )
 
 // ErrorAuthFailed error occurs when it was not possible to get account data.

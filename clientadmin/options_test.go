@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	models2 "github.com/HappyKod/clientadminback/models"
+	models2 "github.com/HappyKod/clientadminback/clientadminmodels"
 
 	"github.com/stretchr/testify/assert"
 )
