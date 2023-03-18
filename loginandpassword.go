@@ -1,6 +1,6 @@
-package models
+package client_admin_back
 
-type LoginPassword struct {
+type LoginAndPassword struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }

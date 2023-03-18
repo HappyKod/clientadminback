@@ -7,13 +7,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	models2 "github.com/HappyKod/clientadminback/clientadminmodels"
-
+	"github.com/HappyKod/clientadminback"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestWithLoginAndPassword1(t *testing.T) {
-	loginAndPassword := models2.LoginPassword{Email: "yudinsv@agatha-hub.ru", Password: "SAVA1973398sava"}
+	loginAndPassword := client_admin_back.LoginAndPassword{Email: "yudinsv@agatha-hub.ru", Password: "SAVA1973398sava"}
 	clientAdmin := ClientAdmin{
 		ServiceURL: "https://api-test.admin.agatha.pw/v1/auth/login",
 	}
@@ -26,17 +25,17 @@ func TestWithLoginAndPassword1(t *testing.T) {
 func TestWithLoginAndPassword(t *testing.T) {
 	testCases := []struct {
 		name           string
-		loginPassword  models2.LoginPassword
-		clientInfo     models2.ClientInfo
+		loginPassword  client_admin_back.LoginAndPassword
+		clientInfo     client_admin_back.ClientInfo
 		expectedResult error
 	}{
 		{
 			name: "successful login",
-			loginPassword: models2.LoginPassword{
+			loginPassword: client_admin_back.LoginAndPassword{
 				Email:    "test@example.com",
 				Password: "password123",
 			},
-			clientInfo: models2.ClientInfo{
+			clientInfo: client_admin_back.ClientInfo{
 				IsActive: true,
 				Token:    "test-token",
 			},
@@ -44,11 +43,11 @@ func TestWithLoginAndPassword(t *testing.T) {
 		},
 		{
 			name: "failed login",
-			loginPassword: models2.LoginPassword{
+			loginPassword: client_admin_back.LoginAndPassword{
 				Email:    "test@example.com",
 				Password: "wrong-password",
 			},
-			clientInfo: models2.ClientInfo{
+			clientInfo: client_admin_back.ClientInfo{
 				IsActive: false,
 			},
 			expectedResult: ErrorAuthFailed,
@@ -84,13 +83,13 @@ func TestWithJWTToken(t *testing.T) {
 	testCases := []struct {
 		name           string
 		JWT            string
-		clientInfo     models2.ClientInfo
+		clientInfo     client_admin_back.ClientInfo
 		expectedResult error
 	}{
 		{
 			name: "successful login",
 			JWT:  "",
-			clientInfo: models2.ClientInfo{
+			clientInfo: client_admin_back.ClientInfo{
 				IsActive: true,
 				Token:    "test-token",
 			},
@@ -99,7 +98,7 @@ func TestWithJWTToken(t *testing.T) {
 		{
 			name: "failed login",
 			JWT:  "",
-			clientInfo: models2.ClientInfo{
+			clientInfo: client_admin_back.ClientInfo{
 				IsActive: false,
 			},
 			expectedResult: ErrorAuthFailed,

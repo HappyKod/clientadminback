@@ -1,4 +1,4 @@
-package models
+package client_admin_back
 
 type ClientInfo struct {
 	TokenExpires string `json:"token_expires"`
