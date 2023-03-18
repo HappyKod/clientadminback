@@ -12,7 +12,7 @@ import (
 )
 
 func TestWithLoginAndPassword1(t *testing.T) {
-	loginAndPassword := client_admin_back.LoginAndPassword{Email: "yudinsv@agatha-hub.ru", Password: "SAVA1973398sava"}
+	loginAndPassword := clientadminback.LoginAndPassword{Email: "yudinsv@agatha-hub.ru", Password: "SAVA1973398sava"}
 	clientAdmin := ClientAdmin{
 		ServiceURL: "https://api-test.admin.agatha.pw/v1/auth/login",
 	}
@@ -25,17 +25,17 @@ func TestWithLoginAndPassword1(t *testing.T) {
 func TestWithLoginAndPassword(t *testing.T) {
 	testCases := []struct {
 		name           string
-		loginPassword  client_admin_back.LoginAndPassword
-		clientInfo     client_admin_back.ClientInfo
+		loginPassword  clientadminback.LoginAndPassword
+		clientInfo     clientadminback.ClientInfo
 		expectedResult error
 	}{
 		{
 			name: "successful login",
-			loginPassword: client_admin_back.LoginAndPassword{
+			loginPassword: clientadminback.LoginAndPassword{
 				Email:    "test@example.com",
 				Password: "password123",
 			},
-			clientInfo: client_admin_back.ClientInfo{
+			clientInfo: clientadminback.ClientInfo{
 				IsActive: true,
 				Token:    "test-token",
 			},
@@ -43,11 +43,11 @@ func TestWithLoginAndPassword(t *testing.T) {
 		},
 		{
 			name: "failed login",
-			loginPassword: client_admin_back.LoginAndPassword{
+			loginPassword: clientadminback.LoginAndPassword{
 				Email:    "test@example.com",
 				Password: "wrong-password",
 			},
-			clientInfo: client_admin_back.ClientInfo{
+			clientInfo: clientadminback.ClientInfo{
 				IsActive: false,
 			},
 			expectedResult: ErrorAuthFailed,
@@ -83,13 +83,13 @@ func TestWithJWTToken(t *testing.T) {
 	testCases := []struct {
 		name           string
 		JWT            string
-		clientInfo     client_admin_back.ClientInfo
+		clientInfo     clientadminback.ClientInfo
 		expectedResult error
 	}{
 		{
 			name: "successful login",
 			JWT:  "",
-			clientInfo: client_admin_back.ClientInfo{
+			clientInfo: clientadminback.ClientInfo{
 				IsActive: true,
 				Token:    "test-token",
 			},
@@ -98,7 +98,7 @@ func TestWithJWTToken(t *testing.T) {
 		{
 			name: "failed login",
 			JWT:  "",
-			clientInfo: client_admin_back.ClientInfo{
+			clientInfo: clientadminback.ClientInfo{
 				IsActive: false,
 			},
 			expectedResult: ErrorAuthFailed,

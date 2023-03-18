@@ -1,4 +1,4 @@
-package client_admin_back
+package clientadminback
 
 type Account struct {
 	Launched    string `json:"launched"`

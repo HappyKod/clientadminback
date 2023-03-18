@@ -50,7 +50,7 @@ func WithJWTToken(token string) Option {
 		if err != nil {
 			return err
 		}
-		var clientInfo client_admin_back.ClientInfo
+		var clientInfo clientadminback.ClientInfo
 		err = json.Unmarshal(all, &clientInfo)
 		if err != nil {
 			return err
@@ -64,7 +64,7 @@ func WithJWTToken(token string) Option {
 }
 
 // WithLoginAndPassword authorization occurs using username and password received from the user.
-func WithLoginAndPassword(loginAndPassword client_admin_back.LoginAndPassword) Option {
+func WithLoginAndPassword(loginAndPassword clientadminback.LoginAndPassword) Option {
 	return func(c *ClientAdmin) error {
 		marshal, err := json.Marshal(loginAndPassword)
 		if err != nil {
@@ -88,7 +88,7 @@ func WithLoginAndPassword(loginAndPassword client_admin_back.LoginAndPassword) O
 		if err != nil {
 			return err
 		}
-		var clientInfo client_admin_back.ClientInfo
+		var clientInfo clientadminback.ClientInfo
 		err = json.Unmarshal(all, &clientInfo)
 		if err != nil {
 			return err
