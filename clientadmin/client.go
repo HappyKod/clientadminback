@@ -70,8 +70,8 @@ func (c ClientAdmin) GetAccounts(srcs string, active bool, groupID, limit int) (
 	return accounts, nil
 }
 
-func (c ClientAdmin) DeleteAccounts(accountID string) error {
-	path, err := url.JoinPath(c.ServiceURL, "v1/accounts", accountID)
+func (c ClientAdmin) DeleteAccounts(accountID int) error {
+	path, err := url.JoinPath(c.ServiceURL, "v1/accounts", fmt.Sprint(accountID))
 	req, err := http.NewRequest(http.MethodDelete, path, nil)
 	if err != nil {
 		return err
