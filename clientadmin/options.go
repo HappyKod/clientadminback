@@ -33,6 +33,7 @@ func WithJWTToken(token string) Option {
 		}
 		//remove Bearer if the user entered this format
 		token = strings.ReplaceAll(token, "Bearer ", "")
+		token = "Bearer " + token
 		request.Header.Add("Authorization", "Bearer "+token)
 		request.Header.Add("content-type", "application/json")
 		client := &http.Client{}
@@ -58,7 +59,7 @@ func WithJWTToken(token string) Option {
 		if !clientInfo.IsActive {
 			return fmt.Errorf("%w: %s", ErrorAuthFailed, token)
 		}
-		c.tokenJWT = clientInfo.Token
+		c.tokenJWT = token
 		return nil
 	}
 }
