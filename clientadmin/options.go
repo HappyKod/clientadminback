@@ -34,7 +34,7 @@ func WithJWTToken(token string) Option {
 		//remove Bearer if the user entered this format
 		token = strings.ReplaceAll(token, "Bearer ", "")
 		token = "Bearer " + token
-		request.Header.Add("Authorization", "Bearer "+token)
+		request.Header.Add("Authorization", token)
 		request.Header.Add("content-type", "application/json")
 		client := &http.Client{}
 		do, err := client.Do(request)
