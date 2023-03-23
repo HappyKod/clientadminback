@@ -9,6 +9,7 @@ type Account struct {
 	GroupId     int    `json:"group_id"`
 	Type        string `json:"type"`
 	ServiceInfo struct {
+		Token    string `json:"token"`
 		Password string `json:"password"`
 		Username string `json:"username"`
 	} `json:"service_info"`

@@ -82,6 +82,12 @@ func (c ClientAdmin) DeleteAccounts(accountID int) error {
 	if err != nil {
 		return err
 	}
+	defer func() {
+		err = do.Body.Close()
+		if err != nil {
+			log.Println(err)
+		}
+	}()
 	if do.StatusCode != http.StatusOK {
 		all, errReadAll := io.ReadAll(do.Body)
 		if errReadAll != nil {
