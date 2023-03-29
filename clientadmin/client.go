@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"net/url"
 
-	clientadminback "github.com/HappyKod/clientadminback"
+	"github.com/HappyKod/clientadminback"
 )
 
 type ClientAdmin struct {
@@ -34,7 +34,7 @@ func NewClientAdmin(serviceURL string, opts ...Option) (*ClientAdmin, error) {
 	return &clientAdmin, nil
 }
 
-func (c ClientAdmin) GetAccounts(srcs string, active bool, groupID, limit int) ([]clientadminback.Account, error) {
+func (c *ClientAdmin) GetAccounts(srcs string, active bool, groupID, limit int) ([]clientadminback.Account, error) {
 	path, err := url.JoinPath(c.ServiceURL, "v1/accounts")
 	req, err := http.NewRequest(http.MethodGet, path, nil)
 	if err != nil {
@@ -70,7 +70,7 @@ func (c ClientAdmin) GetAccounts(srcs string, active bool, groupID, limit int) (
 	return accounts, nil
 }
 
-func (c ClientAdmin) DeleteAccounts(accountID int) error {
+func (c *ClientAdmin) DeleteAccounts(accountID int) error {
 	path, err := url.JoinPath(c.ServiceURL, "v1/accounts", fmt.Sprint(accountID))
 	req, err := http.NewRequest(http.MethodDelete, path, nil)
 	if err != nil {
@@ -96,4 +96,34 @@ func (c ClientAdmin) DeleteAccounts(accountID int) error {
 		return fmt.Errorf("%w: message %s", ErrorUnexpectedAnswer, string(all))
 	}
 	return nil
+}
+
+func (c *ClientAdmin) GetProxies() ([]clientadminback.Proxy, error) {
+	path, err := url.JoinPath(c.ServiceURL, "v1/proxies")
+	req, err := http.NewRequest(http.MethodGet, path, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Authorization", c.tokenJWT)
+	client := &http.Client{}
+	do, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		err = do.Body.Close()
+		if err != nil {
+			log.Println(err)
+		}
+	}()
+	all, err := io.ReadAll(do.Body)
+	if err != nil {
+		return nil, err
+	}
+	var proxies []clientadminback.Proxy
+	err = json.Unmarshal(all, &proxies)
+	if err != nil {
+		return nil, err
+	}
+	return proxies, nil
 }
