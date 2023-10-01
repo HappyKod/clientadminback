@@ -12,6 +12,7 @@ type Account struct {
 		Token    string `json:"token"`
 		Password string `json:"password"`
 		Username string `json:"username"`
+		Cookie   string `json:"cookie"`
 	} `json:"service_info"`
 	AdditionalInfo interface{} `json:"additional_info"`
 	Backup         string      `json:"backup"`

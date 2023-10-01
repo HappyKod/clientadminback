@@ -1,6 +1,7 @@
 package clientadmin
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -36,6 +37,9 @@ func NewClientAdmin(serviceURL string, opts ...Option) (*ClientAdmin, error) {
 
 func (c *ClientAdmin) GetAccounts(srcs string, active bool, groupID, limit int) ([]clientadminback.Account, error) {
 	path, err := url.JoinPath(c.ServiceURL, "v1/accounts")
+	if err != nil {
+		return nil, err
+	}
 	req, err := http.NewRequest(http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -72,6 +76,9 @@ func (c *ClientAdmin) GetAccounts(srcs string, active bool, groupID, limit int) 
 
 func (c *ClientAdmin) DeleteAccounts(accountID int) error {
 	path, err := url.JoinPath(c.ServiceURL, "v1/accounts", fmt.Sprint(accountID))
+	if err != nil {
+		return err
+	}
 	req, err := http.NewRequest(http.MethodDelete, path, nil)
 	if err != nil {
 		return err
@@ -100,6 +107,9 @@ func (c *ClientAdmin) DeleteAccounts(accountID int) error {
 
 func (c *ClientAdmin) GetProxies() ([]clientadminback.Proxy, error) {
 	path, err := url.JoinPath(c.ServiceURL, "v1/proxies")
+	if err != nil {
+		return nil, err
+	}
 	req, err := http.NewRequest(http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -126,4 +136,35 @@ func (c *ClientAdmin) GetProxies() ([]clientadminback.Proxy, error) {
 		return nil, err
 	}
 	return proxies, nil
+}
+
+func (c *ClientAdmin) PatchAccount(ID int, account clientadminback.Account) error {
+	path, err := url.JoinPath(c.ServiceURL, "v1/accounts/", fmt.Sprint(ID))
+	if err != nil {
+		return err
+	}
+	marshal, err := json.Marshal(account)
+	if err != nil {
+		return err
+	}
+	req, err := http.NewRequest(http.MethodPatch, path, bytes.NewReader(marshal))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Authorization", c.tokenJWT)
+	client := &http.Client{}
+	do, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		err = do.Body.Close()
+		if err != nil {
+			log.Println(err)
+		}
+	}()
+	if do.StatusCode != http.StatusCreated {
+		return errors.New(fmt.Sprintf("error %d", do.StatusCode))
+	}
+	return nil
 }
